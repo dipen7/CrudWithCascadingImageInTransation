@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Interview">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MobileNo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Hobby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DropDown" Type="Int32" Nullable="false" />
+    <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="InterviewDrop" Relationship="Model.FK_Interview_InterviewDrop" FromRole="Interview" ToRole="InterviewDrop" />
+  </EntityType>
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Interviews" EntityType="Self.Interview" />
+    <EntitySet Name="InterviewDrops" EntityType="Model.InterviewDrop" />
+    <AssociationSet Name="FK_Interview_InterviewDrop" Association="Model.FK_Interview_InterviewDrop">
+      <End Role="InterviewDrop" EntitySet="InterviewDrops" />
+      <End Role="Interview" EntitySet="Interviews" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="InterviewDrop">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="DropName" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Interviews" Relationship="Model.FK_Interview_InterviewDrop" FromRole="InterviewDrop" ToRole="Interview" />
+  </EntityType>
+  <Association Name="FK_Interview_InterviewDrop">
+    <End Type="Model.InterviewDrop" Role="InterviewDrop" Multiplicity="1" />
+    <End Type="Model.Interview" Role="Interview" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InterviewDrop">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Interview">
+        <PropertyRef Name="DropDown" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

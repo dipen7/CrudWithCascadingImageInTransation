@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="intervnimageModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="States" Relationship="Self.FK_States_Country" FromRole="Country" ToRole="States" />
+  </EntityType>
+  <EntityType Name="Interview">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MobileNo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Hobby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DropDown" Type="Int32" Nullable="false" />
+    <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Photolink" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="Int32" />
+    <Property Name="State" Type="Int32" />
+    <NavigationProperty Name="InterviewDrop" Relationship="Self.FK_Interview_InterviewDrop" FromRole="Interview" ToRole="InterviewDrop" />
+  </EntityType>
+  <EntityType Name="InterviewDrop">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="DropName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Interviews" Relationship="Self.FK_Interview_InterviewDrop" FromRole="InterviewDrop" ToRole="Interview" />
+  </EntityType>
+  <EntityType Name="State">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="StateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CountryId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Country" Relationship="Self.FK_States_Country" FromRole="States" ToRole="Country" />
+  </EntityType>
+  <Association Name="FK_States_Country">
+    <End Role="Country" Type="Self.Country" Multiplicity="1" />
+    <End Role="States" Type="Self.State" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="States">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Interview_InterviewDrop">
+    <End Role="InterviewDrop" Type="Self.InterviewDrop" Multiplicity="1" />
+    <End Role="Interview" Type="Self.Interview" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InterviewDrop">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Interview">
+        <PropertyRef Name="DropDown" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="intervnimageEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Countries" EntityType="Self.Country" />
+    <EntitySet Name="Interviews" EntityType="Self.Interview" />
+    <EntitySet Name="InterviewDrops" EntityType="Self.InterviewDrop" />
+    <EntitySet Name="States" EntityType="Self.State" />
+    <AssociationSet Name="FK_States_Country" Association="Self.FK_States_Country">
+      <End Role="Country" EntitySet="Countries" />
+      <End Role="States" EntitySet="States" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Interview_InterviewDrop" Association="Self.FK_Interview_InterviewDrop">
+      <End Role="InterviewDrop" EntitySet="InterviewDrops" />
+      <End Role="Interview" EntitySet="Interviews" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

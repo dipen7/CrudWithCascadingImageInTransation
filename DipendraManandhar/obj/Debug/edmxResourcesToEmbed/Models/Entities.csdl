@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Interview">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MobileNo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Hobby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DropDown" Type="Int32" Nullable="false" />
+    <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="InterviewDrop" Relationship="Self.FK_Interview_InterviewDrop" FromRole="Interview" ToRole="InterviewDrop" />
+    <Property Name="Photolink" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="Int32" />
+    <Property Name="State" Type="Int32" />
+  </EntityType>
+  <EntityType Name="InterviewDrop">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="DropName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Interviews" Relationship="Self.FK_Interview_InterviewDrop" FromRole="InterviewDrop" ToRole="Interview" />
+  </EntityType>
+  <Association Name="FK_Interview_InterviewDrop">
+    <End Role="InterviewDrop" Type="Self.InterviewDrop" Multiplicity="1" />
+    <End Role="Interview" Type="Self.Interview" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InterviewDrop">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Interview">
+        <PropertyRef Name="DropDown" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Entities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Interviews" EntityType="Self.Interview" />
+    <EntitySet Name="InterviewDrops" EntityType="Self.InterviewDrop" />
+    <AssociationSet Name="FK_Interview_InterviewDrop" Association="Self.FK_Interview_InterviewDrop">
+      <End Role="InterviewDrop" EntitySet="InterviewDrops" />
+      <End Role="Interview" EntitySet="Interviews" />
+    </AssociationSet>
+    <EntitySet Name="Countries" EntityType="Model.Country" />
+    <EntitySet Name="States" EntityType="Model.State" />
+    <AssociationSet Name="FK_States_Country" Association="Model.FK_States_Country">
+      <End Role="Country" EntitySet="Countries" />
+      <End Role="State" EntitySet="States" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="States" Relationship="Model.FK_States_Country" FromRole="Country" ToRole="State" />
+  </EntityType>
+  <EntityType Name="State">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="StateName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CountryId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Country" Relationship="Model.FK_States_Country" FromRole="State" ToRole="Country" />
+  </EntityType>
+  <Association Name="FK_States_Country">
+    <End Type="Model.Country" Role="Country" Multiplicity="1" />
+    <End Type="Model.State" Role="State" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="State">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

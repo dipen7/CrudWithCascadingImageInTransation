@@ -1,0 +1,14 @@
+﻿Sitemap:http://www.dipendramanandhar.com.np/sitemap.xml
+User-agent: Googlebot
+ Disallow: /views/account/
+ Disallaw: /account/
+ Disallaw: /portassets/
+ Disallaw: /manage/
+ Disallaw: /shared/
+ Disallaw: /views/manage/
+ Disallaw: /views/shared/
+
+
+
+User-agent: *
+ Disallow: /

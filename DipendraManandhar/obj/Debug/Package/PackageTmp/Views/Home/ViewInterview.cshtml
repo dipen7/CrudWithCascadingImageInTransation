@@ -1,0 +1,161 @@
+﻿@model DipendraManandhar.ViewModel.InterviewAddEdit
+
+@{
+    ViewBag.Title = "View Interview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title;
+
+}
+
+<h2> Interview object </h2>
+@ViewBag.message
+<form name="AddEdit" method="post" action="~/home/interviewadd" id="addinter">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/home/InterviewIndex">Interview Index</a></li>
+            <li class="active">InterviewObj View</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-9">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                    <label for="FirstName">First Name:</label>
+                    <input type="text" disabled placeholder="First Name" name="InterviewObj.FirstName" value="@(Model.InterviewObj.FirstName!=""?Model.InterviewObj.FirstName:"")" class="form-control" />
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.InterviewObj.FirstName)</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                    <label for="LastName">Last Name:</label>
+                    <input type="text" disabled placeholder="First Name" name="InterviewObj.LastName" value="@(Model.InterviewObj.LastName!=""?Model.InterviewObj.LastName:"")" class="form-control" />
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.InterviewObj.LastName)</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                    <label for="MobileNo">Mobile No. :</label>
+                    <input type="text" disabled placeholder="First Name" name="InterviewObj.MobileNo" value="@(Model.InterviewObj.MobileNo!=""?Model.InterviewObj.MobileNo:"")" class="form-control" />
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.InterviewObj.MobileNo)</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                    <label for="Email">Email :</label>
+                    <input type="text" disabled placeholder="First Name" name="InterviewObj.Email" value="@(Model.InterviewObj.Email!=""?Model.InterviewObj.Email:"")" class="form-control" />
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.InterviewObj.Email)</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                    @if (Model.InterviewObj.Hobby!=null)
+                    {
+                        <input disabled type="checkbox" id="Hobby1" name="Hobby1" value="Facebook" class="float-left" @(Model.InterviewObj.Hobby.Contains("Facebook")?"checked":"") /><label for="Hobby1">Facebook</label>
+                        <input disabled type="checkbox" id="Hobby2" name="Hobby2" value="Youtube" class="float-left" @(Model.InterviewObj.Hobby.Contains("Youtube")?"checked":"") /><label for="Hobby2">youtube</label>
+                        <input disabled type="checkbox" id="Hobby3" name="Hobby3" value="Gaming" class="float-left" @(Model.InterviewObj.Hobby.Contains("Gaming")?"checked":"") /><label for="Hobby3">Gaming</label>
+                        <input disabled type="checkbox" id="Hobby4" name="Hobby4" value="Movies" class="float-left" @(Model.InterviewObj.Hobby.Contains("Movies")?"checked":"") /><label for="Hobby4">Movies</label>
+                        <input disabled type="checkbox" id="Hobby5" name="Hobby5" value="Others" class="float-left" @(Model.InterviewObj.Hobby.Contains("Others")?"checked":"") /><label for="Hobby5">Others</label>
+                    }
+                    else
+                    {
+                        <input disabled type="checkbox" id="Hobby1" name="Hobby1" value="Facebook" class="float-left" /><label for="Hobby1">Facebook</label>
+                        <input disabled type="checkbox" id="Hobby2" name="Hobby2" value="Youtube" class="float-left" /><label for="Hobby2">youtube</label>
+                        <input disabled type="checkbox" id="Hobby3" name="Hobby3" value="Gaming" class="float-left" /><label for="Hobby3">Gaming</label>
+                        <input disabled type="checkbox" id="Hobby4" name="Hobby4" value="Movies" class="float-left" /><label for="Hobby4">Movies</label>
+                        <input disabled type="checkbox" id="Hobby5" name="Hobby5" value="Others" class="float-left" /><label for="Hobby5">Others</label>
+                    }
+                    @*<label for="Other">Other Hobbies</label><input type="text" name="Other" placeholder="seperate by ," />*@
+                    <input type="hidden" id="hobby" name="InterviewObj.Hobby" value="@(Model.InterviewObj.Hobby!=""?Model.InterviewObj.Hobby:"")" />
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.InterviewObj.Hobby)</span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="Country">Country:</label>
+                        @if (Model.InterviewObj.Country != null)
+                        {
+                            @Html.DropDownListFor(x => x.InterviewObj.Country, new SelectList(Model.CountryList, "Id", "Name"), "Select One", new { @class = "form-control" , @disabled = "disabled" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(x => x.InterviewObj.Country, new SelectList(Model.CountryList, "Id", "Name", Model.InterviewObj.Country), "Select One", new { @class = "form-control", @disabled = "disabled" })
+                        }
+                        <span class="text-danger">@Html.ValidationMessageFor(x => x.InterviewObj.Country)</span>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="State">State:</label>
+                        @if (Model.InterviewObj.State != null)
+                        {
+                            @Html.DropDownListFor(x => x.InterviewObj.State, new SelectList(Model.StateList, "Id", "StateName"), "Select One", new { @class = "form-control", @disabled = "disabled" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(x => x.InterviewObj.State, new SelectList(Model.StateList, "Id", "StateName", Model.InterviewObj.State), "Select One", new { @class = "form-control", @disabled = "disabled" })
+                        }
+                        <span class="text-danger">@Html.ValidationMessageFor(x => x.InterviewObj.State)</span>
+                        <div>
+                            <div class="row">
+                                <label> choose a image</label>
+                                <div id="preview">
+                                    <img v-if="url" id="imagePreview" src="@(Model.InterviewObj.Photolink==""?"":"../../Image/"+Model.InterviewObj.Photolink)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                    <label for="FirstName">First Name:</label>
+                    @if (Model.InterviewObj.Id != 0)
+                    {
+                        @Html.DropDownListFor(x => x.InterviewObj.DropDown, new SelectList(Model.Droplist, "Id", "DropName"), "Select One", new { @class = "form-control", @disabled= "disabled" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(x => x.InterviewObj.DropDown, new SelectList(Model.Droplist, "Id", "DropName", Model.InterviewObj.DropDown), "Select One", new { @class = "form-control" , @disabled = "disabled" })
+                    }
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.InterviewObj.DropDown)</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <textarea disabled placeholder="Message" class="form-control" name="InterviewObj.Message">@(Model.InterviewObj.Message!=""?Model.InterviewObj.Message:"")</textarea>
+                    <span class="text-danger">@Html.ValidationMessageFor(x => x.InterviewObj.Message)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var hobbies = "@Model.InterviewObj.Hobby";
+            if (hobbies != "") {
+                $('#hobby').val(hobbies);
+                var hobbi = hobbies.split(",");
+                var i;
+                $('input[type=checkbox]').each(function () {
+                    var avc = $(this).val();
+                    for (i = 0; i < hobbi.length; ++i) {
+                        if (avc == hobbi[i]) {
+                            $(this).attr('checked', true);
+                            //alert(hobbi[i]);
+                            debugger;
+                        }
+                    }
+                });
+            }
+            else { }
+        });
+        $('#addinter').submit(function () {
+            var sList = "";
+            $('input[type=checkbox]').each(function () {
+                //alert($(this).val());
+                sList += (this.checked ? "," + $(this).val() : "");
+                //sList = sList.substring(1, sList.length);
+            });
+            $('#hobby').val(sList);
+            alert(sList);
+        });
+    </script>
+}
