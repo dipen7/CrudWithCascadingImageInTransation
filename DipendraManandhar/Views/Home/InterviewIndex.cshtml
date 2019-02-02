@@ -38,7 +38,7 @@
             <tr>
                 <td>@(item.Country==null?"":Model.CountryList.Where(x=>x.Id==item.Country).FirstOrDefault().Name)</td>
                 <td>@(item.Country == null ? "" : Model.StateList.Where(x => x.Id == item.State).FirstOrDefault().StateName)</td>
-                <td><img src="@string.Format("../../Image/{0}",item.Photolink)" /></td>
+                <td><img src="@string.Format("../../Image/{0}",item.Photolink)" width="114px"/></td>
                 <td>@item.FirstName @item.LastName</td>
                 <td>@item.Email</td>
                 <td>@(@item.Hobby == null ? "" : item.Hobby.Substring(1))</td>
