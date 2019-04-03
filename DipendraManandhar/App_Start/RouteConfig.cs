@@ -19,7 +19,7 @@ namespace DipendraManandhar
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "home", action = "interviewindex", id = UrlParameter.Optional }
             );
         }
     }
